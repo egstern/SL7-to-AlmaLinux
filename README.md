@@ -127,7 +127,7 @@ The system will reboot and begin installing a lot of packages. It will need to r
 At the end of all of that, the system will reboot and come up running AlmaLinux 8.
 
 # Caveats
-This was tested on a system without other repositories such as `epel`. If your original system is running a desktop based on packages from `epel` or kernel packages from other sources there may be trouble.
+This was tested on a system without other repositories such as `epel`. If your original system is running a desktop based on packages from `epel` or kernel packages from other sources (ELrepo or nVidia) there may be trouble.
 
 
 
