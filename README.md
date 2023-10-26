@@ -57,6 +57,13 @@ sudo systemctl reboot
 ```
 Even though the GRUB menu still shows SL7 entries, the new system when booted will be CentOS-7.
 
+Verify that rpm and yum system is not terribly broken.
+```
+sudo yum upgrade
+```
+should complete without errors.
+
+
 ## Continue to Upgrade to AlmaLinux-8
 
 Follow the instructions here: https://wiki.almalinux.org/elevate/ELevate-quickstart-guide.html
@@ -125,6 +132,12 @@ sudo systemctl reboot
 The system will reboot and begin installing a lot of packages. It will need to reboot at least once more. One of those reboots will be to relabel the disk for SElinux.
 
 At the end of all of that, the system will reboot and come up running AlmaLinux 8.
+
+Verify that the dnf system is not terribly broken.
+```
+sudo dnf upgrade
+```
+should complete without errors.
 
 # Caveats
 This was tested on a system without other repositories such as `epel`. If your original system is running a desktop based on packages from `epel` or kernel packages from other sources (ELrepo or nVidia) there may be trouble.
