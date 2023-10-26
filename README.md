@@ -6,6 +6,12 @@ Convert an SL7 to AlmaLinux
 
 This procedure first converts an SL7 system to CentOS-7 and then upgrades to AlmaLinux-8 using the ELevate tools https://wiki.almalinux.org/elevate/.
 
+## FAQ
+1. Who is this for?
+   - This document provides an migration path for someone with a active SL-7 machine who wishes to preserve its operations past the EOL of SL-7 in June 2024 but doesn't want to do a full install of some other operating system.A full install often involves disk partition reformatting causing complications with data preservation.
+2. Why can't they just use the ELevate tools directly?
+   - They don't work for SL-7, as of 2024-10-26. See https://bugs.almalinux.org/view.php?id=433
+
 ## First convert to CentOS-7
 
 To convert an SL7 system to AlmaLinux-8 using the ELevate tools, I first had to
