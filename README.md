@@ -57,4 +57,77 @@ sudo systemctl reboot
 ```
 Even though the GRUB menu still shows SL7 entries, the new system when booted will be CentOS-7.
 
-Continue 
+## Continue to Upgrade to AlmaLinux-8
+
+Follow the instructions here: https://wiki.almalinux.org/elevate/ELevate-quickstart-guide.html
+
+```
+sudo yum install -y http://repo.almalinux.org/elevate/elevate-release-latest-el$(rpm --eval %rhel).noarch.rpm
+sudo yum install -y leapp-upgrade leapp-data-almalinux
+sudo leapp preupgrade
+```
+This results in a report about the likelyhood of upgrade success. My system gave me this:
+```
+============================================================
+                     UPGRADE INHIBITED                      
+============================================================
+
+Upgrade has been inhibited due to the following problems:
+    1. Inhibitor: Missing required answers in the answer file
+Consult the pre-upgrade report for details and possible remediation.
+
+============================================================
+                     UPGRADE INHIBITED                      
+============================================================
+
+
+Debug output written to /var/log/leapp/leapp-preupgrade.log
+
+============================================================
+                           REPORT                           
+============================================================
+
+A report has been generated at /var/log/leapp/leapp-report.json
+A report has been generated at /var/log/leapp/leapp-report.txt
+
+============================================================
+                       END OF REPORT                        
+============================================================
+
+```
+
+There was only one issue preventing upgrade noted in `leapp-report.txt`:
+```
+Title: Module pam_pkcs11 will be removed from PAM configuration
+```
+The file `/var/log/answerfile` should be edited to confirm deletion of this module so it looks like this:
+```
+# =================== remove_pam_pkcs11_module_check.confirm ==================
+# Label:              Disable pam_pkcs11 module in PAM configuration? If no, th$
+# Description:        PAM module pam_pkcs11 is no longer available in RHEL-8 si$
+# Reason:             Leaving this module in PAM configuration may lock out the$
+# Type:               bool
+# Default:            None
+# Available choices: True/False
+# Unanswered question. Uncomment the following line with your answer
+confirm = True
+```
+Then the upgrade is performed:
+```
+sudo leapp upgrade
+```
+
+After a bunch of grinding, it will indicate that the system should be rebooted. From the command line, you can use this command:
+```
+sudo systemctl reboot
+```
+
+The system will reboot and begin installing a lot of packages. It will need to reboot at least once more. One of those reboots will be to relabel the disk for SElinux.
+
+At the end of all of that, the system will reboot and come up running AlmaLinux 8.
+
+# Caveats
+This was tested on a system without other repositories such as `epel`. If your original system is running a desktop based on packages from `epel` or kernel packages from other sources there may be trouble.
+
+
+
